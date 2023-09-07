@@ -1,0 +1,2 @@
+# To achieve this use the TS version but build the application completely locally and copy it across
+# I didn't do for the project because I was using Prisma and there was some work on building with the schema

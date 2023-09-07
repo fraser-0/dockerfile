@@ -1,0 +1,37 @@
+# Use an official Node.js runtime as the base image
+FROM node:20.5-bullseye-slim
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy the package.json and package-lock.json (if available)
+# This allows us to utilize cached Docker layers for node modules
+COPY package*.json ./
+
+# Install dotenv CLI globally
+RUN npm install -g dotenv-cli
+
+# Install TypeScript globally
+#RUN npm install -g typescript
+
+# Install production dependencies only
+# This won't work for this project
+# RUN npm install --only=production
+
+# We are building from Typescript so we need to install the dev dependencies
+RUN npm install
+
+# Copy the local code to the container's workspace
+COPY . ./
+# The pattern for copy a folder is below
+# COPY ./dist ./dist
+# COPY ./README.md ./
+
+# Compile TypeScript to JavaScript
+RUN npm run build
+
+#RUN ls
+#RUN ls dist
+
+# Specify the command to run on container startup
+CMD ["npm", "run", "start:prod"]
